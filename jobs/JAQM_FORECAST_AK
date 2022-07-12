@@ -4,8 +4,6 @@ date
 export PS4=' $SECONDS + '
 set -x
 
-export pid=$$
-jobid=fcst_ak_${PDY}${cyc}_${pid}
 export DATA=${DATA:-${DATAROOT}/${jobid}}
 mkdir -p $DATA
 cd $DATA
@@ -74,9 +72,6 @@ else
 fi
 ##################################################
 if [ -s ${pgmout} ]; then cat ${pgmout}; fi
-
-print_job="FCST_AK_"${PDY}${cyc}
-export job=${job:-${print_job}}
 
 msg="JOB ${job} HAS COMPLETED NORMALLY."
 postmsg   "${msg}"

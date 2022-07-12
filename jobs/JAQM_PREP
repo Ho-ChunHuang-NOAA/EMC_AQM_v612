@@ -6,11 +6,7 @@ export PS4=' $SECONDS + '
 
 set -ax
 
-export RUN=${RUN:-cs}
-export pid=$$
-jobid=metprep_${RUN}_${PDY}${cyc}_${pid}
 export DATA=${DATA:-${DATAROOT}/${jobid}}
-
 mkdir -p ${DATA}
 cd ${DATA}
 
@@ -103,13 +99,6 @@ elif [ "${FCST}" == "NO" ]; then
 fi
 
 if [ -s ${pgmout} ]; then cat ${pgmout}; fi
-
-if [ "${FCST}" == "NO" ]; then
-    print_job="METPREP_ANA_"${RUN}_${PDY}${cyc}
-else
-    print_job="METPREP_"${RUN}_${PDY}${cyc}
-fi
-export job=${job:-${print_job}}
 
 msg="JOB ${job} HAS COMPLETED NORMALLY."
 postmsg "${msg}"

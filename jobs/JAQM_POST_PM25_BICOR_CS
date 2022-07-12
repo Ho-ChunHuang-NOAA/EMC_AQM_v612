@@ -4,8 +4,6 @@ date
 export PS4=' $SECONDS + '
 set -x
 
-export pid=$$
-jobid=bicor_pm_cs_${PDY}${cyc}_${pid}
 export DATA=${DATA:-${DATAROOT}/${jobid}}
 mkdir -p $DATA
 cd $DATA
@@ -87,9 +85,6 @@ $HOMEaqm/scripts/exaqm_post_pm25_bicor_cs.sh
 export err=$?; err_chk
 
 if [ -s ${pgmout} ]; then cat ${pgmout}; fi
-
-print_job="POST_PM25_BICOR_CS"${PDY}${cyc}
-export job=${job:-${print_job}}
 
 msg="JOB $job bias correction HAS COMPLETED NORMALLY."
 postmsg "$msg"

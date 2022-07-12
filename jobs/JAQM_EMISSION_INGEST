@@ -16,8 +16,6 @@ export RUN=aqm
 export SENDMAIL=${SENDMAIL:-Y}   ### use SENDMAIL to avoid confusion with /usr/sbin/sendmail
 
 #####################################
-export pid=$$
-jobid=emis_ingest_${PDY}${cyc}_${pid}
 export DATAROOT=${DATAROOT:-/lfs/f1/ops/prod/tmp}
 export DATA=${DATA:-${DATAROOT}/${jobid}}
 mkdir -p $DATA

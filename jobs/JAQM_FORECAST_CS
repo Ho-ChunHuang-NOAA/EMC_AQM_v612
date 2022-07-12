@@ -4,8 +4,6 @@ date
 export PS4=' $SECONDS + '
 set -x
 
-export pid=$$
-jobid=fcst_cs_${PDY}${cyc}_${pid}
 export DATA=${DATA:-${DATAROOT}/${jobid}}
 mkdir -p ${DATA}
 cd ${DATA}
@@ -95,9 +93,6 @@ if [ "${FLAG_RUN_FCST}" == "YES" ]; then
 fi
 ##################################################
 if [ -s ${pgmout} ]; then cat ${pgmout}; fi
-
-print_job="FCST_CS_"${PDY}${cyc}
-export job=${job:-${print_job}}
 
 msg="JOB $job HAS COMPLETED NORMALLY."
 postmsg   "${msg}"
