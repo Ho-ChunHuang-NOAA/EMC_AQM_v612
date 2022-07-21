@@ -39,7 +39,10 @@ export id_grib=148
 startmsg
 rm -rf ${COMOUT}/aqm.${cycle}.aconc_sfc.ncf
 
-export SPECIES_DEF=${PARMaqm}/SpecDef_cb6r3_ae7_sfc_subset.txt
+## Operational
+## export SPECIES_DEF=${PARMaqm}/SpecDef_cb6r3_ae7_sfc_subset.txt
+## For Diagnosis - add CO
+export SPECIES_DEF=${PARMaqm}/SpecDef_cb6r3_ae7_sfc_subset_3D.txt
 export INFILE1=${COMOUT}/aqm.${cycle}.aconc.ncf
 if [ ! -s ${INFILE1} ]; then
    err_exit "****FATAL ERROR**** - COULD NOT LOCATE: ${INFILE1}"
@@ -110,9 +113,10 @@ ${EXECaqm}/aqm_cmaq2grib2_v2 >> ${pgmout} 2>errfile
 export err=$?;err_chk
 
 #
+## varlist='O3','NO','NO2','NOY','VOC','PM25_TOT','PM25_EC','PM25_NH4','PM25_NO3','PM25_OC','PM25_SO4','PMC_TOT'
 cat >cmaq2grib2.ini <<EOF5
 &control
-varlist='O3','NO','NO2','NOY','VOC','PM25_TOT','PM25_EC','PM25_NH4','PM25_NO3','PM25_OC','PM25_SO4','PMC_TOT'
+varlist='O3','CO', 'NO','NO2','NOY','VOC','PM25_TOT','PM25_EC','PM25_NH4','PM25_NO3','PM25_OC','PM25_SO4','PMC_TOT'
 metlist='    '
 outfile='aqm.${cycle}.chem_sfc'
 nlayers=1

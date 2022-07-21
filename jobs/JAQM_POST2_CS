@@ -10,13 +10,13 @@ cd ${DATA}
 
 export cycle=${cycle:-t${cyc}z}
 setpdy.sh
-. PDY
+. ./PDY
 
 export SENDDBN=${SENDDBN:-YES}
 export SENDECF=${SENDECF:-YES}
 export SENDCOM=${SENDCOM:-YES}
 
-export HOMEaqm=${HOMEaqm:-/lfs/h1/ops/para/packages/aqm.v6.1.2)
+export HOMEaqm=${HOMEaqm:-/lfs/h1/ops/para/packages/aqm.v6.1.2}
 export USHaqm=${USHaqm:-${HOMEaqm}/ush}
 export EXECaqm=${EXECaqm:-${HOMEaqm}/exec}
 export PARMaqm=${PARMaqm:-${HOMEaqm}/parm}

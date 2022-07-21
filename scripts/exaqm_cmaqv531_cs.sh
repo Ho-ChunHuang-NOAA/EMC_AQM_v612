@@ -246,15 +246,18 @@ SPCS_4="ASVOO3J AOTHRJ AIVPO1J AISO1J AISO2J AISO3J AMT1J AMT2J AMT3J AMT4J AMT5
 SPCS_5="AMT6J AMTNO3J AMTHYDJ AGLYJ ASQTJ AORGCJ AOLGBJ AOLGAJ APCSOJ AAVB1J AAVB2J"
 SPCS_6="AAVB3J AAVB4J AFEJ ASIJ ATIJ ACAJ AMGJ AMNJ AALJ AKJ ASO4K ANO3K ANH4K ACLK"
 SPCS_7="ASOIL ACORS ASEACAT O3 NO NO2 NO3 N2O5 HONO HNO3 PNA CRON CLNO2"
+SPCS_73d="ASOIL ACORS ASEACAT O3 CO NO NO2 NO3 N2O5 HONO HNO3 PNA CRON CLNO2"
 SPCS_8s="CLNO3 PAN PANX OPAN NTR1 NTR2 INTR"
 SPCS_8="CLNO3 PAN PANX OPAN NTR1 NTR2 INTR PAR ETHA PRPA MEOH ETH ETOH OLE ACET TOL"
 SPCS_9="XYLMN BENZENE FORM GLY KET ETHY ALD2 IOLE ALDX ISOP TERP NAPH APIN"
-export CONC_SPCS="O3"
-# export CONC_SPCS="ALL"
-# export CONC_SPCS="${SPCS_1} ${SPCS_2} ${SPCS_3} ${SPCS_4} ${SPCS_5} ${SPCS_6} ${SPCS_7} ${SPCS_8s}"
+# operational
+# export CONC_SPCS="O3"
+# 3D diagnosis
+export CONC_SPCS="${SPCS_1} ${SPCS_2} ${SPCS_3} ${SPCS_4} ${SPCS_5} ${SPCS_6} ${SPCS_73d} ${SPCS_8} ${SPCS_9}"
 # export CONC_BLEV_ELEV=" 1 1" #> CONC file layer range; comment to write all layers to CONC
 # export AVG_CONC_SPCS="ALL"
-export AVG_CONC_SPCS="${SPCS_1} ${SPCS_2} ${SPCS_3} ${SPCS_4} ${SPCS_5} ${SPCS_6} ${SPCS_7} ${SPCS_8} ${SPCS_9}"
+# operational
+export AVG_CONC_SPCS="${SPCS_1} ${SPCS_2} ${SPCS_3} ${SPCS_4} ${SPCS_5} ${SPCS_6} ${SPCS_73d} ${SPCS_8} ${SPCS_9}"
 ## if no VOC output : export AVG_CONC_SPCS="${SPCS_1} ${SPCS_2} ${SPCS_3} ${SPCS_4} ${SPCS_5} ${SPCS_6} ${SPCS_7} ${SPCS_8s}"
 export ACONC_BLEV_ELEV=" 1 1" #> ACONC file layer range; comment to write all layers to ACONC
 export AVG_FILE_ENDTIME=Y     #> override default beginning ACONC timestamp [ default: N ]
@@ -284,7 +287,10 @@ export CTM_BIOGEMIS=Y        #> calculate in-line biogenic emissions [ default: 
 export B3GTS_DIAG=Y          #> write biogenic mass emissions diagnostic file [ default: N ]; ignore if CTM_BIOGEMIS = N
 export CTM_PT3DEMIS=Y        #> calculate in-line plume rise for elevated point emissions [ default: N ]
 ## Turn off 3D point source emission output (including fire)
-export PT3DDIAG=N            #> optional 3d point source emissions diagnostic file [ default: N]; ignore if CTM_PT3DEMIS = N
+# operational
+# export PT3DDIAG=N            #> optional 3d point source emissions diagnostic file [ default: N]; ignore if CTM_PT3DEMIS = N
+# 3D diagnosis
+export PT3DDIAG=Y            #> optional 3d point source emissions diagnostic file [ default: N]; ignore if CTM_PT3DEMIS = N
 export PT3DFRAC=N            #> optional layer fractions diagnostic (play) file(s) [ default: N]; ignore if CTM_PT3DEMIS = N
 export IOAPI_LOG_WRITE=F     #> turn on excess WRITE3 logging [ options: T | F ]
 export FL_ERR_STOP=N         #> stop on inconsistent input files
