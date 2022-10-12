@@ -6,6 +6,9 @@
 ##     /gpfs/dell1/nco/ops/dcom/prod/${PDYm1}/firewx
 ## PDY's GBBEPx FIRE EMISSION only in the dcom $PDY directory
 ##
+## 10/31/2021   Jianping Huang perform update for WCOSS2 transition 
+## 08/03/2022   Ho-Chun Huang  perform update for new dcom configuration that PDY fire emission
+##                             can only be found in /lfs/h1/ops/prod/dcom/${PDY}/firewx
 export pgm=aqm_prep_cs_fire_emi
 fire_emission_hdr=GBBEPx_all01GRID.emissions_v003
 if [ ${FCST} = "NO" ] ; then  ## For 24-hour-back analysis run using PDYm1 fire emission

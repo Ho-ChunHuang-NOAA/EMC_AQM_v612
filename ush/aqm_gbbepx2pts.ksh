@@ -3,32 +3,28 @@
 ## For operational/NRT and developmental retro-run, one should use day-1 fire emissions to mimic
 ##     operational environment. Using a day-2 fire emissions is a fail-over option during operational run.
 ## Add warning message to alert NCO for missing fire emission files in 
-##     /gpfs/dell1/nco/ops/dcom/prod/${PDY}/firewx
-## Today's GBBEPx FIRE EMISSION directory only has PDYm1 and PDYm2's fire emission
+##     /lfs/h1/ops/prod/dcom/${PDY}/firewx
+## PDY's GBBEPx FIRE EMISSION only in the dcom $PDY directory
 ##
+## 10/31/2021   Jianping Huang perform update for WCOSS2 transition 
+## 08/03/2022   Ho-Chun Huang  perform update for new dcom configuration that PDY fire emission
+##                             can only be found in /lfs/h1/ops/prod/dcom/${PDY}/firewx
 export pgm=aqm_prep_cs_fire_emi
 fire_emission_hdr=GBBEPx_all01GRID.emissions_v003
 if [ ${FCST} = "NO" ] ; then  ## For 24-hour-back analysis run using PDYm1 fire emission
    flag_with_gbbepx=yes
-   if [ -s ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc ]; then
+   if [ -s ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc ]; then
       FIREDATE=${PDYm1}
       emisfile=${fire_emission_hdr}_${PDYm1}.nc
-      COMIN9=${COMINfire}
-   elif [ -s ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc ]; then
-      FIREDATE=${PDYm2}
-      emisfile=${fire_emission_hdr}_${PDYm2}.nc
-      COMIN9=${COMINfire}
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-   elif [ -s ${COMINfirem1}/${fire_emission_hdr}_${PDYm2}.nc ]; then
-      FIREDATE=${PDYm2}
-      emisfile=${fire_emission_hdr}_${PDYm2}.nc
       COMIN9=${COMINfirem1}
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc"
+   elif [ -s ${COMINfirem2}/${fire_emission_hdr}_${PDYm2}.nc ]; then
+      FIREDATE=${PDYm2}
+      emisfile=${fire_emission_hdr}_${PDYm2}.nc
+      COMIN9=${COMINfirem2}
+      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc"
    else
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc"
-      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm2}.nc"
+      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc"
+      echo "WARNING NO ${COMINfirem2}/${fire_emission_hdr}_${PDYm2}.nc"
       flag_with_gbbepx=no
    fi 
 else   ## For day1, day2, and day3 forecast runs using PDYm1 fire emission OR create control run
@@ -39,45 +35,37 @@ else   ## For day1, day2, and day3 forecast runs using PDYm1 fire emission OR cr
       COMIN9=${COMINfire}
       echo "WARNING using current day fire emission in forecast mode is only for estabilishing a refernce case"
       echo "WARNING in operational environment, only day-1 fire emission is available for current day forecast"
-   elif [ -s ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc ]; then
+   elif [ -s ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc ]; then
       FIREDATE=${PDYm1}
       emisfile=${fire_emission_hdr}_${PDYm1}.nc
-      COMIN9=${COMINfire}
-   elif [ -s ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc ]; then
-      FIREDATE=${PDYm2}
-      emisfile=${fire_emission_hdr}_${PDYm2}.nc
-      COMIN9=${COMINfire}
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-   elif [ -s ${COMINfirem1}/${fire_emission_hdr}_${PDYm2}.nc ]; then
-      FIREDATE=${PDYm2}
-      emisfile=${fire_emission_hdr}_${PDYm2}.nc
       COMIN9=${COMINfirem1}
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc"
+   elif [ -s ${COMINfirem2}/${fire_emission_hdr}_${PDYm2}.nc ]; then
+      FIREDATE=${PDYm2}
+      emisfile=${fire_emission_hdr}_${PDYm2}.nc
+      COMIN9=${COMINfirem2}
+      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc"
    else
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm1}.nc"
-      echo "WARNING NO ${COMINfire}/${fire_emission_hdr}_${PDYm2}.nc"
-      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm2}.nc"
+      echo "WARNING NO ${COMINfirem1}/${fire_emission_hdr}_${PDYm1}.nc"
+      echo "WARNING NO ${COMINfirem2}/${fire_emission_hdr}_${PDYm2}.nc"
       flag_with_gbbepx=no
    fi 
-
+fi
 ##
 ## In operational yesterday's GBBEPX fire emission (PDYm1) won't be available till 08Z.
 ## Thus it is not available for the 00z cycle run. 00z run has to use the two-day old fire emission info,
 ## i.e., ${EMIFIREINm1}/${fire_emission_hdr}_${PDYm2}.nc
-    if [ "${RUN_ENVIR}" != "nco" ] && [ "${cyc}" == "00" ]; then
-        if [ "${COMIN9}" == "${EMIFIREIN}" ] && [ "${emisfile}" == "${fire_emission_hdr}_${PDYm1}.nc" ]; then
-            echo "++++++++++++++++++ WARNING +++++++++++++++++++++++++++++++"
-            echo "This may happen in the retro or re-run of ${PDY} 00z cycle"
-            echo "In operational, ${PDY} 00z should not use ${COMIN9}/${emisfile}"
-            echo "that is only available ~ ${PDY} 08Z"
-            echo "It should use ${EMIFIREINm1}/${fire_emission_hdr}_${PDYm2}.nc"
-            echo "reset COMIN9=${EMIFIREINm1} and emisfile=${fire_emission_hdr}_${PDYm2}.nc"
-            echo "++++++++++++++++++ WARNING +++++++++++++++++++++++++++++++"
-            FIREDATE=${PDYm2}
-            emisfile=${fire_emission_hdr}_${PDYm2}.nc
-            COMIN9=${EMIFIREINm1}
-        fi
+if [ "${RUN_ENVIR}" != "nco" ] && [ "${cyc}" == "00" ]; then
+    if [ "${COMIN9}" == "${COMINfirem1}" ] && [ "${emisfile}" == "${fire_emission_hdr}_${PDYm1}.nc" ]; then
+        echo "++++++++++++++++++ WARNING +++++++++++++++++++++++++++++++"
+        echo "This may happen in the retro or re-run of ${PDY} 00z cycle"
+        echo "In operational, ${PDY} 00z should not use ${COMINfirem1}/${emisfile-m1}"
+        echo "that is only available ~ ${PDY} 08Z"
+        echo "It should use ${COMINfirem2}/${fire_emission_hdr}_${PDYm2}.nc"
+        echo "reset COMIN9=${COMINfirem2} and emisfile=${fire_emission_hdr}_${PDYm2}.nc"
+        echo "++++++++++++++++++ WARNING +++++++++++++++++++++++++++++++"
+        FIREDATE=${PDYm2}
+        emisfile=${fire_emission_hdr}_${PDYm2}.nc
+        COMIN9=${COMINfirem2}
     fi
 fi
 
