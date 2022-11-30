@@ -1,5 +1,5 @@
-export gfs_ver=v16.2
-export gefs_ver=v12.2
+export gfs_ver=v16.3
+export gefs_ver=v12.3
 
 export envvar_ver=1.0
 export PrgEnv_intel_ver=8.1.0

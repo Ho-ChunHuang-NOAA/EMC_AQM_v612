@@ -1,4 +1,5 @@
-export gfs_ver=v16.2
+## AQM switch to use v16.3 on 11/30/2022 12z
+export gfs_ver=v16.3
 ## AQM switch to use v12.3 on 10/19/2022 12z
 export gefs_ver=v12.3
 
