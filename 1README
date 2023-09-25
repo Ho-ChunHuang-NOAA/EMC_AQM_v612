@@ -63,3 +63,4 @@
                                  task jaqm_emission_ingest
                                    time 14:00
                                endfamily
+(9) September 25 2023 NCO implemented v6.1.9 that use the AiNOW csv file as obsewrvation input
